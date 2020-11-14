@@ -1,0 +1,1 @@
+from .pycuteweb import Application

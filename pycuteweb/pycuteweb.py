@@ -1,7 +1,7 @@
-from PyQt5.QtCore import QUrl, QCoreApplication, Qt, pyqtSlot, pyqtSignal, QObject
-from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QApplication, QFileDialog
-from PyQt5.QtWebEngineWidgets import QWebEngineView
+from PySide2.QtCore import QUrl, QCoreApplication, Qt, Slot, Signal, QObject
+from PySide2.QtGui import QIcon
+from PySide2.QtWidgets import QApplication, QFileDialog
+from PySide2.QtWebEngineWidgets import QWebEngineView
 from pathlib import Path
 from threading import Event
 from .window import Window
@@ -11,8 +11,8 @@ class Application(QObject):
 
     windows = {}
 
-    folder_dialog_spawn = pyqtSignal(str)
-    window_dialog_spawn = pyqtSignal(int, str)
+    folder_dialog_spawn = Signal(str)
+    window_dialog_spawn = Signal(int, str)
 
     def __init__(self):
         QObject.__init__(self)
@@ -37,12 +37,12 @@ class Application(QObject):
         self.__filename_dialog = None
         return Path(path) if path else None
 
-    @pyqtSlot(int, str)
+    @Slot(int, str)
     def __on_window(self, id, url):
         window = Window(url=url)
         Application.windows[id] = window
 
-    @pyqtSlot(str)
+    @Slot(str)
     def __on_folder_dialog(self, title):
         self.__filename_dialog = str(QFileDialog.getExistingDirectory(parent=None, caption=title, options=QFileDialog.ShowDirsOnly))
         self.__file_dialog_event.set()

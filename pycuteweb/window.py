@@ -1,6 +1,6 @@
-from PyQt5.QtCore import QUrl
-from PyQt5.QtGui import QIcon
-from PyQt5.QtWebEngineWidgets import QWebEngineView
+from PySide2.QtCore import QUrl
+from PySide2.QtGui import QIcon
+from PySide2.QtWebEngineWidgets import QWebEngineView
 
 
 class Window:

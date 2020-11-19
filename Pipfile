@@ -5,6 +5,7 @@ name = "pypi"
 
 [packages]
 pyside2 = "*"
+pycuteweb = {editable = true, path = "."}
 
 [dev-packages]
 

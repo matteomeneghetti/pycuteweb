@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "7ef1bfb1d8f653afda644798e082d488b48496a6dfef8f5796dfeef7331398fe"
+            "sha256": "28ee91fa18b52d37606f9d31e7074e0d62334a32e854d3124ce1c2c3eeb67111"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -16,6 +16,10 @@
         ]
     },
     "default": {
+        "pycuteweb": {
+            "editable": true,
+            "path": "."
+        },
         "pyside2": {
             "hashes": [
                 "sha256:3c9a24557edf25b60fded6ed99a9b5e4b287be1cc3857e76e18dd930e54240e3",

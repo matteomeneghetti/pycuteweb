@@ -5,7 +5,7 @@ from PySide2.QtWebEngineWidgets import QWebEngineView
 
 class Window:
 
-    def __init__(self, title="Default title", icon=None, url=""):
+    def __init__(self, url, title, icon=None):
 
         self.__zoom = 1.0
         self.__url = url

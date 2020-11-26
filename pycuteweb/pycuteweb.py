@@ -1,5 +1,4 @@
 from PySide2.QtCore import QUrl, QCoreApplication, Qt, Slot, Signal, QObject
-from PySide2.QtGui import QIcon
 from PySide2.QtWidgets import QApplication, QFileDialog
 from PySide2.QtWebEngineWidgets import QWebEngineView
 from pathlib import Path
@@ -14,7 +13,7 @@ class Application(QObject):
     windows = {}
 
     folder_dialog_spawn = Signal(str)
-    window_dialog_spawn = Signal(int, str, str)
+    window_dialog_spawn = Signal(int, str, str, str)
 
     def __init__(self, name="Default app name"):
         QObject.__init__(self)
@@ -29,9 +28,9 @@ class Application(QObject):
         self.__app = QApplication([])
         self.__app.setApplicationName(name)
 
-    def spawn_window(self, url="", title="Default title"):
+    def spawn_window(self, url="", title="Default title", icon=None):
         id = len(Application.windows)
-        self.window_dialog_spawn.emit(id, url, title)
+        self.window_dialog_spawn.emit(id, url, title, icon)
         return id
 
     def spawn_folder_dialog(self, title="Select directory"):
@@ -67,8 +66,8 @@ class Application(QObject):
             return self.spawn_window(url)
 
     @Slot(int, str)
-    def __on_window(self, id, url, title):
-        window = Window(url=url, title=title)
+    def __on_window(self, id, url, title, icon):
+        window = Window(url=url, title=title, icon=icon)
         Application.windows[id] = window
 
     @Slot(str)

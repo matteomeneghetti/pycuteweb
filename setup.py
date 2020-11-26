@@ -8,7 +8,7 @@ setuptools.setup(
     version="0.1.0",
     author="Matteo Meneghetti",
     author_email="matteo@meneghetti.dev",
-    description="",
+    description="Display webapps, websites, or HTML content on a desktop window",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/matteomeneghetti/pycuteweb",

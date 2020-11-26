@@ -10,5 +10,6 @@ def index():
 
 
 if __name__ == '__main__':
-    web_app = Application(flask_app=app)
+    web_app = Application()
+    web_app.add_flask(app)
     web_app.start()

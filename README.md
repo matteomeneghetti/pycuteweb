@@ -33,10 +33,9 @@ app.start()
 ## Flask example
 
 In case you want to run a desktop application with flask, just pass the flask object
-in the constructor and start the app.
+to the app object.
 
 ```python
-# Minimal example
 from flask import Flask
 from pycuteweb import Application
 
@@ -49,7 +48,8 @@ def index():
 
 
 if __name__ == '__main__':
-    web_app = Application(flask_app=app)
+    web_app = Application()
+    web_app.add_flask(app)
     web_app.start()
 ```
 

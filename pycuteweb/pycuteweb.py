@@ -16,7 +16,7 @@ class Application(QObject):
     folder_dialog_spawn = Signal(str)
     window_dialog_spawn = Signal(int, str, str)
 
-    def __init__(self, name="Default", flask_app=None):
+    def __init__(self, name="Default app name"):
         QObject.__init__(self)
 
         self.__file_dialog_event = Event()
@@ -28,12 +28,6 @@ class Application(QObject):
         QCoreApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
         self.__app = QApplication([])
         self.__app.setApplicationName(name)
-
-        if flask_app is not None:
-            self.__flask_app = flask_app
-            self.__flask_thread = None
-            url = self.__start_flask()
-            self.spawn_window(url)
 
     def spawn_window(self, url="", title="Default title"):
         id = len(Application.windows)
@@ -49,6 +43,28 @@ class Application(QObject):
 
     def add_splashscreen(self, path):
         self.__splash = SplashScreen(path)
+
+    def add_flask(self, flask, host="127.0.0.1", port=0, debug=False, spawn_window=True):
+
+        def start_flask(host, port, debug):
+            self.__flask_app.run(host=host, port=port, debug=debug, threaded=True)
+
+        import socket
+
+        if port <= 1024:
+            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            sock.bind(('localhost', 0))
+            port = sock.getsockname()[1]
+            sock.close()
+
+        self.__flask_app = flask
+        self.__flask_thread = Thread(
+            target=start_flask, args=(host, port, debug), daemon=True)
+
+        url = "http://{}:{}".format(host, port)
+
+        if spawn_window:
+            return self.spawn_window(url)
 
     @Slot(int, str)
     def __on_window(self, id, url, title):
@@ -69,27 +85,13 @@ class Application(QObject):
 
             if len(Application.windows) > 0:
                 self.__splash.close(Application.windows[0].qtView)
+        
+        try:
+            self.__flask_thread.start()
+        except AttributeError as e:
+            pass
 
         for window in Application.windows.values():
             window.start()
 
         return exit(self.__app.exec_())
-
-    def __start_flask(self, port=0):
-
-        import socket
-
-        def run_flask(port):
-            self.__flask_app.run(port=port, threaded=True)
-
-        if port <= 1024:
-            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            sock.bind(('localhost', 0))
-            port = sock.getsockname()[1]
-            sock.close()
-
-        self.__flask_thread = Thread(
-            target=run_flask, args=(port,), daemon=True)
-        self.__flask_thread.start()
-
-        return "http://127.0.0.1:{}".format(port)

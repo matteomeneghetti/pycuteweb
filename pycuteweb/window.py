@@ -1,6 +1,6 @@
 from PySide2.QtCore import QUrl
 from PySide2.QtGui import QIcon, QDesktopServices
-from PySide2.QtWidgets import QDesktopWidget
+from PySide2.QtWidgets import QDesktopWidget, QMainWindow
 from PySide2.QtWebEngineWidgets import QWebEngineView, QWebEnginePage
 
 
@@ -10,29 +10,25 @@ class Window:
 
         self.__zoom = 1.0
         self.__start_url = url
-        self.qtView = QWebEngineView()
+        self.window = QMainWindow()
+        self.__webview = QWebEngineView()
+        self.window.setCentralWidget(self.__webview)
 
-        self.qtView.setWindowTitle(title)
+        self.window.setWindowTitle(title)
         if icon is not None:
-            self.qtView.setWindowIcon(QIcon(icon))
-        self.qtView.resize(QDesktopWidget().availableGeometry(self.qtView).size() * 0.75);
+            self.window.setWindowIcon(QIcon(icon))
+        self.window.resize(QDesktopWidget().availableGeometry(self.window).size() * 0.75);
 
     def resize(self, width, height):
-        self.qtView.resize(width, height)
-
-    @property
-    def zoom(self):
-        return self.__zoom
-
-    @zoom.setter
-    def zoom(self, value):
+        self.window.resize(width, height)
+    
+    def set_zoom(self, value):
         value = float(value)
-        self.__zoom = value
-        self.qtView.setZoomFactor(self.zoom)
+        self.__webview.setZoomFactor(self.zoom)
 
     def start(self):
-        self.qtView.setPage(WebPage(self.__start_url, parent=self.qtView))
-        self.qtView.show()
+        self.__webview.setPage(WebPage(self.__start_url, parent=self.__webview))
+        self.window.show()
 
 class WebPage(QWebEnginePage):
 

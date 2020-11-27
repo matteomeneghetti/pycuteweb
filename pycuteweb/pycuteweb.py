@@ -83,7 +83,7 @@ class Application(QObject):
             self.__splash.show()
 
             if len(Application.windows) > 0:
-                self.__splash.close(Application.windows[0].qtView)
+                self.__splash.close(Application.windows[0].window)
         
         try:
             self.__flask_thread.start()

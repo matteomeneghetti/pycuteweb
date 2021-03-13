@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="pycuteweb",
-    version="0.1.0",
+    version="0.1.1",
     author="Matteo Meneghetti",
     author_email="matteo@meneghetti.dev",
     description="Package which aims to display webapps or websites on a desktop window",

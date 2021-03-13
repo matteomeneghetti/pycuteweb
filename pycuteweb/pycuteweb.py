@@ -84,7 +84,7 @@ class Application(QObject):
 
             if len(Application.windows) > 0:
                 self.__splash.close(Application.windows[0].window)
-        
+
         try:
             self.__flask_thread.start()
         except AttributeError as e:

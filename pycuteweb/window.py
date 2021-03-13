@@ -1,4 +1,4 @@
-from PySide2.QtCore import QUrl
+from PySide2.QtCore import QUrl, Qt
 from PySide2.QtGui import QIcon, QDesktopServices
 from PySide2.QtWidgets import QDesktopWidget, QMainWindow
 from PySide2.QtWebEngineWidgets import QWebEngineView, QWebEnginePage
@@ -12,6 +12,7 @@ class Window:
         self.__start_url = url
         self.window = QMainWindow()
         self.__webview = QWebEngineView()
+        self.__webview.setContextMenuPolicy(Qt.NoContextMenu)
         self.window.setCentralWidget(self.__webview)
 
         self.window.setWindowTitle(title)
@@ -21,7 +22,7 @@ class Window:
 
     def resize(self, width, height):
         self.window.resize(width, height)
-    
+
     def set_zoom(self, value):
         value = float(value)
         self.__webview.setZoomFactor(self.zoom)
@@ -36,7 +37,7 @@ class WebPage(QWebEnginePage):
         super(WebPage, self).__init__(parent)
         self.__url = url
         self.load(QUrl(self.__url))
-    
+
     def acceptNavigationRequest(self, qurl, navtype, mainframe):
         if self.__url in qurl.toString():  # open in QWebEngineView
             return True
